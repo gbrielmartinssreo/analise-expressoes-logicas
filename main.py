@@ -11,22 +11,17 @@ class Operator:
 
 
 def func_and(*values):
-    resultado = True  
-    for value in values:  
-        resultado = resultado and value  
-        if not resultado:  
-            break
-    return resultado
-
-
+    if values[0]==True and values[1]==True:
+        return True;
+    else:
+        return False;
 
 def func_or(*values):
-    resultado = False  
-    for value in values:  
-        resultado = resultado or value  
-        if resultado:  
-            break
-    return resultado
+    if values[0]==False and values[1]==False:
+        return False;
+    else:
+        return True;
+
 
 def func_neg(*values):
     return not values[0];
@@ -42,8 +37,6 @@ def func_bicond(*values):
         return True;
     else:
         return False;
-
-
 
 list_operators = [
         Operator("(",None,0,0),
@@ -80,17 +73,7 @@ for token in input_expression:
         elif(token=='B'):
             output.append(False);
         elif(token=='C'):
-            output.append(True);
-    
-    elif (operator.symbol == "("):
-        holding_stack.append(operator);
-    elif (operator.symbol == ")"):
-        while holding_stack[-1].symbol != "(":
-            output.append(holding_stack.pop());
-
-        holding_stack.pop();
-        continue;
-
+            output.append(True); 
     
     elif (operator.symbol == "("):
         holding_stack.append(operator);
@@ -101,14 +84,17 @@ for token in input_expression:
 
         holding_stack.pop();
         continue;
-
+    
     elif(len(holding_stack)==0):
         holding_stack.append(operator);
-
+    
     elif ((operator.symbol != "(") and (operator.symbol != ")")):
+        
         while holding_stack[-1].precedence > operator.precedence:
             output.append(holding_stack.pop());
-
+            if len(holding_stack)==0:
+                break;
+        
         holding_stack.append(operator);
     
 
@@ -119,15 +105,16 @@ for item in output:
     if isinstance(item,bool):
         solve_stack.append(item);
     elif isinstance(item,Operator):
-        uni_resul=item.function(solve_stack[(-item.parameters):]);
-        for i in range(-1,-(item.parameters)):
+        parameters=solve_stack[-(item.parameters):]
+        uni_resul=item.function(*parameters);
+        for i in range(0,item.parameters):
             solve_stack.pop();
-
+        
         solve_stack.append(uni_resul);
 
 final_resul=solve_stack[0];
 
-print(f"{final_resul}");
+print(f"\nResultado: {final_resul}");
 
 
 
