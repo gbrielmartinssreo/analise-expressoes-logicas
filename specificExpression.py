@@ -2,41 +2,7 @@ from BooleanData import BooleanData
 from Operator import Operator
 from OpFunctions import *
 
-list_operators = [
-        Operator("(",None,0,0),
-        Operator(")",None,0,0),
-        
-        Operator("~",func_neg,5,1),
-        Operator("^",func_and,4,2),
-        Operator("v",func_or,3,2),
-        Operator(">",func_cond,2,2),
-        Operator("-",func_bicond,1,2), 
-]
-
-def buscaOperator(token):
-    for operator in list_operators:
-        if operator.symbol == token:
-            return operator;
-
-
-def resolve_expression():
-    booleanData_qnt=int(input("Quantas letras tem a expressao: "));
-
-    booleanData_vector = []
-
-    for i in range(0,booleanData_qnt):
-        letter = input("Digite a letra: ")[0];
-        value = input("Digite o valor (V/F): ")[0];
-        if value == "V":
-            value=True;
-        elif value == "F":
-            value=False;
-
-        booleanData_vector.append(BooleanData(letter,value));    
-        
-
-
-    input_expression = input("Digite a expressao: "); 
+def resolve_expression(input_expression,booleanData_vector):
 
     holding_stack = [];
 
@@ -93,6 +59,6 @@ def resolve_expression():
             solve_stack.append(uni_resul);
 
     final_resul=solve_stack[0];
-
-    print(f"\nResultado: {final_resul}");
+    
+    return final_resul;
 

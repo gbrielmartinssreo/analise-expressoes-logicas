@@ -1,4 +1,6 @@
-from specificExpression import *
+from specificExpression import resolve_expression
+from typeExpre import typeExpression
+from truthTable import truthTable_generator
 
 def menu():
     print("Bem-vindo ao Solucionador de Lógica Proposicional!")
@@ -15,12 +17,14 @@ choice = menu();
 
 
 if choice == "1":
-    pass;
-    #input_expression = input("Digite a expressão lógica: ")
-    #gerar_tabela_verdade(input_expression)
+    expression,values = typeExpression(False);
+    truthTable_generator(expression,values);
 
 elif choice == "2":
-    resolve_expression();
+    expression,values = typeExpression(True);
+    resul = resolve_expression(expression,values);
+    print(resul);
+
 elif choice == "4":
     print("Até mais!")
     exit()
