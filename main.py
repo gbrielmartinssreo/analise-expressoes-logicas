@@ -1,6 +1,6 @@
-from specificExpression import resolve_expression
-from typeExpre import typeExpression
-from truthTable import truthTable_generator
+from src.specificExpression import resolve_expression
+from src.receive_input import typeExpression
+from src.truthTable import truthTable_generator
 
 def menu():
     print("Bem-vindo ao Solucionador de Lógica Proposicional!")
