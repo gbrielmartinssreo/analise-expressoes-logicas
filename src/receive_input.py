@@ -1,28 +1,32 @@
 from src.classes.BooleanData import BooleanData
+import re
 
 def typeExpression(needValue):
     
-    booleanData_qnt=int(input("Quantas letras tem a expressao: "));
-
     input_expression = input("Digite a expressao: "); 
+
+    letters = sorted(list(set(re.findall("[a-zA-Z]",input_expression))))
 
     booleanData_vector = []
 
-    for i in range(0,booleanData_qnt):
-        letter = input(f"Digite a {i+1}º letra: ")[0];
+      
+    if needValue == True:
         
-        if needValue == False:
-            booleanData_vector.append(letter);
-            continue;
+        booleanData_qnt = len(letters) 
 
-        value = input("Digite o valor (V/F): ")[0];
+        for i in range(0,booleanData_qnt):
+
+            value = input(f"Digite o valor (V/F) de {letters[i]}: ")[0];
         
-        if value == "V":
-            value=True;
-        elif value == "F":
-            value=False;
+            if value == "V":
+                value=True;
+            elif value == "F":
+                value=False;
 
-        booleanData_vector.append(BooleanData(letter,value));    
+            booleanData_vector.append(BooleanData(letters[i],value));    
     
+    else:
+        booleanData_vector = letters[:]
+
     return input_expression,booleanData_vector;
 
