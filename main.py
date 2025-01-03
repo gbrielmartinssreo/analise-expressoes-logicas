@@ -1,7 +1,7 @@
 from src.specificExpression import resolve_expression
 from src.receive_input import typeExpression
 from src.truthTable import truthTable_generator
-#from src.propositional_logic import
+from src.propositional_logic import resolve_logic_prop
 
 def menu():
     print("Bem-vindo ao Solucionador de Lógica Proposicional!")
@@ -28,6 +28,7 @@ elif choice == "2":
 
 elif choice == "3":
     expression,values = typeExpression(False);
+    resolve_logic_prop(expression)
 
 elif choice == "4":
     print("Até mais!")

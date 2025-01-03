@@ -26,7 +26,7 @@ def typeExpression(needValue):
             booleanData_vector.append(BooleanData(letters[i],value));    
     
     else:
-    booleanData_vector = letters[:]
+        booleanData_vector = letters[:]
 
     return input_expression,booleanData_vector;
 
