@@ -1,4 +1,3 @@
-doekdoksodkeok
 # Analise de Expressões Lógicas
 ![Status do Projeto](https://img.shields.io/badge/Status-Andamento-orange)
 
@@ -57,14 +56,50 @@ Este projeto foi desenvolvido utilizando **Python**.
 
 
 ## 💻 Tecnologias
+### Resolução de Expressões com o Algoritmo Shunting-Yard
 
-Boa parte deste projeto foi desenvolvido utilizando o algoritmo Shunting Yard:
--  O algoritmo Shunting Yard é implementado para processar expressões lógicas de entrada e transformá-las em uma notação que facilita a avaliação.
--   Ele permite que expressões lógicas complexas, como aquelas que utilizam conjunções (`^`), disjunções (`v`), negações (`~`), condicionais (`>`), e bicondicionais (`-`), sejam avaliadas sem a necessidade de manipular a precedência dos operadores manualmente.
--   A expressão é analisada e convertida para uma forma pós-fixa, o que torna o processo de avaliação mais simples e eficiente.
+Para a funcionalidade de resolver expressões lógicas com valores específicos, o projeto implementa o **Algoritmo Shunting-Yard**.
 
+#### O Desafio: Notação Infixa vs. Lógica do Computador
+
+Nós escrevemos expressões em **notação infixa**, onde os operadores ficam *entre* os operandos (ex: `P ^ Q > R`). Essa notação depende de regras de precedência (o `^` é resolvido antes do `>`) e do uso de parênteses para alterar essa ordem. Para um computador, percorrer e avaliar isso diretamente é complexo e ineficiente.
+
+#### A Estratégia: Convertendo para Notação Pós-fixa (RPN)
+
+A solução é traduzir a expressão infixa para um formato que o computador entende nativamente: a **notação pós-fixa** (ou Notação Polonesa Reversa - RPN). Nessa notação, o operador vem *depois* dos seus operandos.
+
+-   A expressão infixa `(P ^ Q) > R`
+-   Se torna a expressão pós-fixa `P Q ^ R >`
+
+Neste formato, a expressão pode ser avaliada de forma linear e simples, usando uma pilha, sem a necessidade de se preocupar com a precedência.
+
+#### O Motor: Como o Shunting-Yard Atua no Projeto
+
+O algoritmo Shunting-Yard ("desvio de trilhos", em tradução livre) é o motor que faz essa conversão. Ele funciona de forma análoga a uma estação de triagem de trens:
+
+1.  **A Expressão é Lida Token a Token:** `(`, `P`, `^`, `Q`, `)`, `>`, `R`.
+2.  **Operandos (`P`, `Q`, `R`)**: São enviados diretamente para uma "fila" de saída final.
+3.  **Operadores (`^`, `>`, `~`...)**: São colocados em uma "pilha" de espera. Um operador só pode entrar na pilha se ela estiver vazia ou se ele tiver maior precedência que o operador que já está no topo. Caso contrário, o operador do topo é movido para a fila de saída para garantir a ordem correta das operações.
+4.  **Parênteses**: Funcionam como comandos de prioridade para descarregar os operadores da pilha na ordem certa.
+
+Ao final do processo, a fila de saída contém a expressão perfeitamente ordenada em notação pós-fixa, pronta para ser avaliada de forma simples e eficiente pelo programa. Isso permite que expressões lógicas complexas com conjunções (`^`), disjunções (`v`), condicionais (`>`), etc., sejam interpretadas corretamente, respeitando todas as regras da lógica proposicional.
 
 ---
+## Fluxo do programa
+
+### Diagrama sequencial -> Tabela verdade
+```mermaid
+  sequenceDiagram
+        participant main
+        participant receive-input
+        participant truth-table
+
+        main->> receive-input: chama "typeExpression()"
+        receive-input->>main: retorna "expression" e "values"
+        main->>truth-table: chama "truthTable_generator()"
+        note over truth-table: Imprime a tabela verdade
+
+```
 ## 👨🏻‍⚖️ Exemplos
 
 **Geração de Tabela-Verdade:**
