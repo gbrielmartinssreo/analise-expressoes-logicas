@@ -42,9 +42,27 @@ Este projeto foi desenvolvido utilizando **Python**.
 
 ## ⚙️ Funcionalidades
 
-* **Geração de Tabelas-Verdade:** Gera tabelas-verdade para expressões booleanas arbitrárias, visualizando os resultados para todas as combinações possíveis de valores das variáveis.
+### Geração de Tabelas-Verdade
+ Gera tabelas-verdade para expressões booleanas arbitrárias, visualizando os resultados para todas as combinações possíveis de valores das variáveis.
+ 
+ **Diagrama sequencial**
+```mermaid
+  sequenceDiagram
+        participant main
+        participant receive-input
+        participant truth-table
 
-* **Avaliação de Expressões:** Avalia expressões booleanas fornecendo valores específicos para as variáveis.  O avaliador retorna o resultado (Verdadeiro ou Falso).
+        main->> receive-input: chama "typeExpression()"
+        receive-input->>main: retorna "expression" e "values"
+        main->>truth-table: chama "truthTable_generator()"
+        note over truth-table: Imprime a tabela verdade
+
+```
+
+
+### Avaliação de Expressões Específicas
+
+Avalia expressões booleanas fornecendo valores específicos para as variáveis.  O avaliador retorna o resultado (Verdadeiro ou Falso).
 
 * **Operadores Suportados:**  O avaliador suporta os seguintes operadores lógicos:
     * `^`: E (AND)
@@ -53,6 +71,22 @@ Este projeto foi desenvolvido utilizando **Python**.
     * `>`: Implicação
     * `-`: Bicondicional (equivalência)
     * `(` e `)`: Parênteses para controlar a precedência.
+  
+```mermaid
+sequenceDiagram
+    participant main
+    participant receive-input
+    participant specific-expression
+    participant auxiliary-functions
+
+    main->>receive-input: chama "typeExpression()"
+    receive-input->>main: retorna "expression" e "values"
+    main->>specific-expression: chama "resolve_expression()"
+    specific-expression->>auxiliary-functions:chama "buscaOperator()"
+    auxiliary-functions->>specific-expression:retorna "operator"
+    specific-expression->>main:retorna "resul"
+    note over main:Mostra resultado da expressão
+```
 
 
 ## 💻 Tecnologias
@@ -60,7 +94,7 @@ Este projeto foi desenvolvido utilizando **Python**.
 
 Para a funcionalidade de resolver expressões lógicas com valores específicos, o projeto implementa o **Algoritmo Shunting-Yard**.
 
-#### O Desafio: Notação Infixa vs. Lógica do Computador
+#### Notação Infixa e Lógica do Computador
 
 Nós escrevemos expressões em **notação infixa**, onde os operadores ficam *entre* os operandos (ex: `P ^ Q > R`). Essa notação depende de regras de precedência (o `^` é resolvido antes do `>`) e do uso de parênteses para alterar essa ordem. Para um computador, percorrer e avaliar isso diretamente é complexo e ineficiente.
 
@@ -85,21 +119,6 @@ O algoritmo Shunting-Yard ("desvio de trilhos", em tradução livre) é o motor 
 Ao final do processo, a fila de saída contém a expressão perfeitamente ordenada em notação pós-fixa, pronta para ser avaliada de forma simples e eficiente pelo programa. Isso permite que expressões lógicas complexas com conjunções (`^`), disjunções (`v`), condicionais (`>`), etc., sejam interpretadas corretamente, respeitando todas as regras da lógica proposicional.
 
 ---
-## Fluxo do programa
-
-### Diagrama sequencial -> Tabela verdade
-```mermaid
-  sequenceDiagram
-        participant main
-        participant receive-input
-        participant truth-table
-
-        main->> receive-input: chama "typeExpression()"
-        receive-input->>main: retorna "expression" e "values"
-        main->>truth-table: chama "truthTable_generator()"
-        note over truth-table: Imprime a tabela verdade
-
-```
 ## 👨🏻‍⚖️ Exemplos
 
 **Geração de Tabela-Verdade:**
