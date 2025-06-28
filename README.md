@@ -92,31 +92,11 @@ sequenceDiagram
 ## 💻 Tecnologias
 ### Resolução de Expressões com o Algoritmo Shunting-Yard
 
-Para a funcionalidade de resolver expressões lógicas com valores específicos, o projeto implementa o **Algoritmo Shunting-Yard**.
+Para avaliar expressões lógicas, o projeto implementa o **Algoritmo Shunting-Yard**. Ele resolve o desafio de interpretar a **notação infixa** (ex: `(P ^ Q) > R`), que, devido às regras de precedência de operadores e parênteses, é complexa para um computador avaliar diretamente.
 
-#### Notação Infixa e Lógica do Computador
+A estratégia do algoritmo é converter a expressão para **notação pós-fixa** (RPN), um formato linear e sem ambiguidades (ex: `P Q ^ R >`).
 
-Nós escrevemos expressões em **notação infixa**, onde os operadores ficam *entre* os operandos (ex: `P ^ Q > R`). Essa notação depende de regras de precedência (o `^` é resolvido antes do `>`) e do uso de parênteses para alterar essa ordem. Para um computador, percorrer e avaliar isso diretamente é complexo e ineficiente.
-
-#### A Estratégia: Convertendo para Notação Pós-fixa (RPN)
-
-A solução é traduzir a expressão infixa para um formato que o computador entende nativamente: a **notação pós-fixa** (ou Notação Polonesa Reversa - RPN). Nessa notação, o operador vem *depois* dos seus operandos.
-
--   A expressão infixa `(P ^ Q) > R`
--   Se torna a expressão pós-fixa `P Q ^ R >`
-
-Neste formato, a expressão pode ser avaliada de forma linear e simples, usando uma pilha, sem a necessidade de se preocupar com a precedência.
-
-#### O Motor: Como o Shunting-Yard Atua no Projeto
-
-O algoritmo Shunting-Yard ("desvio de trilhos", em tradução livre) é o motor que faz essa conversão. Ele funciona de forma análoga a uma estação de triagem de trens:
-
-1.  **A Expressão é Lida Token a Token:** `(`, `P`, `^`, `Q`, `)`, `>`, `R`.
-2.  **Operandos (`P`, `Q`, `R`)**: São enviados diretamente para uma "fila" de saída final.
-3.  **Operadores (`^`, `>`, `~`...)**: São colocados em uma "pilha" de espera. Um operador só pode entrar na pilha se ela estiver vazia ou se ele tiver maior precedência que o operador que já está no topo. Caso contrário, o operador do topo é movido para a fila de saída para garantir a ordem correta das operações.
-4.  **Parênteses**: Funcionam como comandos de prioridade para descarregar os operadores da pilha na ordem certa.
-
-Ao final do processo, a fila de saída contém a expressão perfeitamente ordenada em notação pós-fixa, pronta para ser avaliada de forma simples e eficiente pelo programa. Isso permite que expressões lógicas complexas com conjunções (`^`), disjunções (`v`), condicionais (`>`), etc., sejam interpretadas corretamente, respeitando todas as regras da lógica proposicional.
+Para fazer isso, o Shunting-Yard utiliza uma **pilha** para gerenciar temporariamente os operadores (`^`, `v`, `~`...) e os parênteses. Conforme a expressão é lida, os operandos (`P`, `Q`) são enviados para uma fila de saída, enquanto os operadores são organizados na pilha com base em sua precedência. Ao final, o conteúdo da fila é a expressão em notação pós-fixa, pronta para uma avaliação computacional simples e eficiente.
 
 ---
 ## 👨🏻‍⚖️ Exemplos
