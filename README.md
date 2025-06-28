@@ -1,4 +1,4 @@
-
+doekdoksodkeok
 # Analise de Expressões Lógicas
 ![Status do Projeto](https://img.shields.io/badge/Status-Andamento-orange)
 
